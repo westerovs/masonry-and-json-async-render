@@ -13,22 +13,22 @@ const template = (item) => (`
 `)
 
 try {
-    const galleryList = document.querySelector('.gallery__list')
-
     const getResponse = async () => {
-        const response      = await fetch('http://jsonplaceholder.typicode.com/photos')
-        let receivedContent = await response.json()
-        receivedContent     = receivedContent.splice(0, 100)
+        const response = await fetch('https://jsonplaceholder.typicode.com/photos')
+        const receivedContent = await response.json()
         
-        return receivedContent
+        return receivedContent.splice(0, 100)
     }
     
-    getResponse().then((data) => {
-        for (let item of data) render(galleryList, template(item))
-        
-        const galleryItem = Array.from(document.querySelectorAll('.gallery__item'))
-        console.log(galleryItem.length, 'карточек загружено и теперь можно с ними работать')
-    })
+    getResponse()
+        .then((data) => {
+            const galleryList = document.querySelector('.gallery__list')
+    
+            for (let item of data) render(galleryList, template(item))
+            
+            const galleryItems = galleryList.querySelectorAll('.gallery__item')
+            console.log(galleryItems.length, 'карточек загружено и теперь можно с ними работать')
+        })
 } catch (err) {
     console.log(err)
     console.log('something went wrong...')
